@@ -1,0 +1,566 @@
+clear all
+close all
+clc
+
+tic
+
+fwdqualitythreshold = 15 ;
+revqualitythreshold = 15 ;
+
+%=== Load and analyze data half million reads at a time
+%===================================================================================
+%===================================================================================
+
+
+
+
+
+
+%=== Load and analyze first set
+block = 1 ;
+disp(['Currently loading block ' , num2str(block)])
+readsfwd = fastqread('DSSH001A_S1_L001_R1_001.fastq', 'blockread', [1 500000]) ;
+readsrev = fastqread('DSSH001A_S1_L001_R2_001.fastq', 'blockread', [1 500000]) ;
+
+%=== Filter Forward Reads
+
+SQ = cellfun(@(x) double(x)-33, {readsfwd.Quality}, 'UniformOutput', false); % in integer format, sanger
+numberpassed = 0 ;
+
+for i = 1:length(SQ)
+    if mod(i,50000) == 0 & i>9999
+        disp(['Currently filtering fwd read ' , num2str(i) , ' of block ' , num2str(block)])
+        toc
+    end
+    x = cell2mat(SQ(i)) ;
+    x = x(1:187) ;
+    if sum(x>fwdqualitythreshold) == 187
+        numberpassed = numberpassed + 1 ;
+        passedfwd(numberpassed) = i ;
+    end
+end
+
+clear numberpassed
+clear reads
+clear i
+clear SQ
+clear x
+
+%=== Filter Reverse Reads
+
+SQ = cellfun(@(x) double(x)-33, {readsrev.Quality}, 'UniformOutput', false); % in integer format, sanger
+numberpassed = 0 ;
+for i = 1:length(SQ)
+    if mod(i,50000) == 0 & i>9999
+        disp(['Currently filtering rev read ' , num2str(i) , ' of block ' , num2str(block)])
+        toc
+    end
+    x = cell2mat(SQ(i)) ;
+    x = x(1:187) ;
+    if sum(x>revqualitythreshold) == 187
+        numberpassed = numberpassed + 1 ;
+        passedrev(numberpassed) = i ;
+    end
+end
+
+clear numberpassed
+clear reads
+clear i
+clear SQ
+clear x
+
+C = intersect(passedfwd,passedrev) ;
+passedfwdreads = {readsfwd.Sequence} ;
+passedrevreads = {readsrev.Sequence} ;
+passedfwdreads1 = passedfwdreads(C) ;
+passedrevreads1 = passedrevreads(C) ;
+clear C
+clear passedfwdreads
+clear passedrevreads
+clear passedfwd
+clear passedrev
+clear readsfwd
+clear readsrev
+
+
+
+
+
+%=== Load and analyze second set
+block = 2 ;
+disp(['Currently loading block ' , num2str(block)])
+readsfwd = fastqread('DSSH001A_S1_L001_R1_001.fastq', 'blockread', [500001 1000000]) ;
+readsrev = fastqread('DSSH001A_S1_L001_R2_001.fastq', 'blockread', [500001 1000000]) ;
+
+%=== Filter Forward Reads
+
+SQ = cellfun(@(x) double(x)-33, {readsfwd.Quality}, 'UniformOutput', false); % in integer format, sanger
+numberpassed = 0 ;
+for i = 1:length(SQ)
+    if mod(i,50000) == 0 & i>9999
+        disp(['Currently filtering fwd read ' , num2str(i) , ' of block ' , num2str(block)])
+        toc
+    end
+    x = cell2mat(SQ(i)) ;
+    x = x(1:187) ;
+    if sum(x>fwdqualitythreshold) == 187
+        numberpassed = numberpassed + 1 ;
+        passedfwd(numberpassed) = i ;
+    end
+end
+
+clear numberpassed
+clear reads
+clear i
+clear SQ
+clear x
+
+%=== Filter Reverse Reads
+
+SQ = cellfun(@(x) double(x)-33, {readsrev.Quality}, 'UniformOutput', false); % in integer format, sanger
+numberpassed = 0 ;
+for i = 1:length(SQ)
+    if mod(i,50000) == 0 & i>9999
+        disp(['Currently filtering rev read ' , num2str(i) , ' of block ' , num2str(block)])
+        toc
+    end
+    x = cell2mat(SQ(i)) ;
+    x = x(1:187) ;
+    if sum(x>revqualitythreshold) == 187
+        numberpassed = numberpassed + 1 ;
+        passedrev(numberpassed) = i ;
+    end
+end
+
+clear numberpassed
+clear reads
+clear i
+clear SQ
+clear x
+
+C = intersect(passedfwd,passedrev) ;
+passedfwdreads = {readsfwd.Sequence} ;
+passedrevreads = {readsrev.Sequence} ;
+passedfwdreads2 = passedfwdreads(C) ;
+passedrevreads2 = passedrevreads(C) ;
+clear C
+clear passedfwdreads
+clear passedrevreads
+clear passedfwd
+clear passedrev
+clear readsfwd
+clear readsrev
+
+
+
+
+
+
+%=== Load and analyze third set
+block = 3 ;
+disp(['Currently loading block ' , num2str(block)])
+readsfwd = fastqread('DSSH001A_S1_L001_R1_001.fastq', 'blockread', [1000001 1500000]) ;
+readsrev = fastqread('DSSH001A_S1_L001_R2_001.fastq', 'blockread', [1000001 1500000]) ;
+
+%=== Filter Forward Reads
+
+SQ = cellfun(@(x) double(x)-33, {readsfwd.Quality}, 'UniformOutput', false); % in integer format, sanger
+numberpassed = 0 ;
+for i = 1:length(SQ)
+    if mod(i,50000) == 0 & i>9999
+        disp(['Currently filtering fwd read ' , num2str(i) , ' of block ' , num2str(block)])
+        toc
+    end
+    x = cell2mat(SQ(i)) ;
+    x = x(1:187) ;
+    if sum(x>fwdqualitythreshold) == 187
+        numberpassed = numberpassed + 1 ;
+        passedfwd(numberpassed) = i ;
+    end
+end
+
+clear numberpassed
+clear reads
+clear i
+clear SQ
+clear x
+
+%=== Filter Reverse Reads
+
+SQ = cellfun(@(x) double(x)-33, {readsrev.Quality}, 'UniformOutput', false); % in integer format, sanger
+numberpassed = 0 ;
+for i = 1:length(SQ)
+    if mod(i,50000) == 0 & i>9999
+        disp(['Currently filtering rev read ' , num2str(i) , ' of block ' , num2str(block)])
+        toc
+    end
+    x = cell2mat(SQ(i)) ;
+    x = x(1:187) ;
+    if sum(x>revqualitythreshold) == 187
+        numberpassed = numberpassed + 1 ;
+        passedrev(numberpassed) = i ;
+    end
+end
+
+clear numberpassed
+clear reads
+clear i
+clear SQ
+clear x
+
+C = intersect(passedfwd,passedrev) ;
+passedfwdreads = {readsfwd.Sequence} ;
+passedrevreads = {readsrev.Sequence} ;
+passedfwdreads3 = passedfwdreads(C) ;
+passedrevreads3 = passedrevreads(C) ;
+clear C
+clear passedfwdreads
+clear passedrevreads
+clear passedfwd
+clear passedrev
+clear readsfwd
+clear readsrev
+
+
+
+
+
+
+
+
+
+%=== Load and analyze fourth set
+block = 4 ;
+disp(['Currently loading block ' , num2str(block)])
+readsfwd = fastqread('DSSH001A_S1_L001_R1_001.fastq', 'blockread', [1500001 2000000]) ;
+readsrev = fastqread('DSSH001A_S1_L001_R2_001.fastq', 'blockread', [1500001 2000000]) ;
+
+%=== Filter Forward Reads
+
+SQ = cellfun(@(x) double(x)-33, {readsfwd.Quality}, 'UniformOutput', false); % in integer format, sanger
+numberpassed = 0 ;
+for i = 1:length(SQ)
+    if mod(i,50000) == 0 & i>9999
+        disp(['Currently filtering fwd read ' , num2str(i) , ' of block ' , num2str(block)])
+        toc
+    end
+    x = cell2mat(SQ(i)) ;
+    x = x(1:187) ;
+    if sum(x>fwdqualitythreshold) == 187
+        numberpassed = numberpassed + 1 ;
+        passedfwd(numberpassed) = i ;
+    end
+end
+
+clear numberpassed
+clear reads
+clear i
+clear SQ
+clear x
+
+%=== Filter Reverse Reads
+
+SQ = cellfun(@(x) double(x)-33, {readsrev.Quality}, 'UniformOutput', false); % in integer format, sanger
+numberpassed = 0 ;
+for i = 1:length(SQ)
+    if mod(i,50000) == 0 & i>9999
+        disp(['Currently filtering rev read ' , num2str(i) , ' of block ' , num2str(block)])
+        toc
+    end
+    x = cell2mat(SQ(i)) ;
+    x = x(1:187) ;
+    if sum(x>revqualitythreshold) == 187
+        numberpassed = numberpassed + 1 ;
+        passedrev(numberpassed) = i ;
+    end
+end
+
+clear numberpassed
+clear reads
+clear i
+clear SQ
+clear x
+
+C = intersect(passedfwd,passedrev) ;
+passedfwdreads = {readsfwd.Sequence} ;
+passedrevreads = {readsrev.Sequence} ;
+passedfwdreads4 = passedfwdreads(C) ;
+passedrevreads4 = passedrevreads(C) ;
+clear C
+clear passedfwdreads
+clear passedrevreads
+clear passedfwd
+clear passedrev
+clear readsfwd
+clear readsrev
+
+
+
+
+
+
+%=== Load and analyze fifth set
+block = 5 ;
+disp(['Currently loading block ' , num2str(block)])
+readsfwd = fastqread('DSSH001A_S1_L001_R1_001.fastq', 'blockread', [2000001 2500000]) ;
+readsrev = fastqread('DSSH001A_S1_L001_R2_001.fastq', 'blockread', [2000001 2500000]) ;
+
+%=== Filter Forward Reads
+
+SQ = cellfun(@(x) double(x)-33, {readsfwd.Quality}, 'UniformOutput', false); % in integer format, sanger
+numberpassed = 0 ;
+for i = 1:length(SQ)
+    if mod(i,50000) == 0 & i>9999
+        disp(['Currently filtering fwd read ' , num2str(i) , ' of block ' , num2str(block)])
+        toc
+    end
+    x = cell2mat(SQ(i)) ;
+    x = x(1:187) ;
+    if sum(x>fwdqualitythreshold) == 187
+        numberpassed = numberpassed + 1 ;
+        passedfwd(numberpassed) = i ;
+    end
+end
+
+clear numberpassed
+clear reads
+clear i
+clear SQ
+clear x
+
+%=== Filter Reverse Reads
+
+SQ = cellfun(@(x) double(x)-33, {readsrev.Quality}, 'UniformOutput', false); % in integer format, sanger
+numberpassed = 0 ;
+for i = 1:length(SQ)
+    if mod(i,50000) == 0 & i>9999
+        disp(['Currently filtering rev read ' , num2str(i) , ' of block ' , num2str(block)])
+        toc
+    end
+    x = cell2mat(SQ(i)) ;
+    x = x(1:187) ;
+    if sum(x>revqualitythreshold) == 187
+        numberpassed = numberpassed + 1 ;
+        passedrev(numberpassed) = i ;
+    end
+end
+
+clear numberpassed
+clear reads
+clear i
+clear SQ
+clear x
+
+C = intersect(passedfwd,passedrev) ;
+passedfwdreads = {readsfwd.Sequence} ;
+passedrevreads = {readsrev.Sequence} ;
+passedfwdreads5 = passedfwdreads(C) ;
+passedrevreads5 = passedrevreads(C) ;
+clear C
+clear passedfwdreads
+clear passedrevreads
+clear passedfwd
+clear passedrev
+clear readsfwd
+clear readsrev
+
+QCpassedfwdreads = [passedfwdreads1';passedfwdreads2';passedfwdreads3';passedfwdreads4';passedfwdreads5'];
+QCpassedrevreads = [passedrevreads1';passedrevreads2';passedrevreads3';passedrevreads4';passedrevreads5'];
+
+clear fwdqualitythreshold
+clear revqualitythreshold
+clear passedfwdreads1
+clear passedfwdreads2
+clear passedfwdreads3
+clear passedfwdreads4
+clear passedfwdreads5
+clear passedrevreads1
+clear passedrevreads2
+clear passedrevreads3
+clear passedrevreads4
+clear passedrevreads5
+clear block
+
+disp('Completed filtering raw reads by quality score')
+toc
+
+%===== At this point, should only be QCpassedfwdreads and QCpassedrevreads
+%as loaded variables.
+
+
+
+
+
+
+
+
+
+
+
+
+
+%===== Next is to filter the reads and generate the clean read list
+
+iLOV = 'ATCGAAAAAAACTTCGTTATCACCGACCCGCGCTTACCTGACAATCCAATCATCTTTGCCTCAGATGGTTTTCTCGAGCTAACCGAATACAGCCGTGAAGAAATTCTGGGTCGTAATGCTCGTTTCCTGCAGGGCCCGGAAACCGACCAAGCTACGGTTCAGAAAATTCGCGATGCAATTCGCGATCAGCGTGAGACTACCGTTCAATTGATCAACTACACCAAAAGCGGTAAAAAATTTTGGAACCTGTTGCATCTTCAACCGGTACGCGACCAAAAAGGCGAGCTTCAGTACTTTATCGGCGTGCAGCTGGATGGGAGTGACCATGTG' ;
+
+limit = length(QCpassedfwdreads);
+count = 1;
+for i = 1:limit
+   
+    if mod(i,50000) == 0 & i>9999
+        disp(['Currently generating clean read ' , num2str(i) , ' out of ' , num2str(length(QCpassedfwdreads))])
+        toc
+    end
+    x = cell2mat(QCpassedfwdreads(i));
+    
+    if x(6:27) == 'TCATTAATGCACGTCTCTGTCC'
+        seqs_fwd_filtered{count} = x ;
+        x = x(28:187) ;
+        
+        xrev = cell2mat(QCpassedrevreads(i)) ;
+        seqs_rev_filtered{count} = xrev ;
+        xrev = xrev(18:187) ;
+        xrev = seqrcomplement(xrev) ;
+        
+        R1{count} = [x xrev] ;
+        count = count + 1;
+        
+    end
+end
+
+disp('Completed generating clean read matrix R1')
+toc
+
+clear count
+clear i
+clear limit
+clear QCpassedfwdreads
+clear QCpassedrevreads
+clear seqs_fwd_filtered
+clear seqs_rev_filtered
+clear x
+clear xrev
+
+%===== At this point, matrix R1 has been generated, which contains all the
+%clean reads of just the iLOV open reading frame. The only remaining
+%variables are iLOV and R1.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%=======================================================================
+%=======================================================================
+%=== Generate nucleotide mutant matrix
+
+NucMutMatrix = zeros(length(R1),330) ;
+
+for read = 1:length(R1)
+    if mod(read,50000) == 0 & read>9999
+        disp(['Currently analyzing clean read ' , num2str(read) , ' for nucleotide mutations, out of ' , num2str(length(R1))])
+        toc
+    end
+    x = cell2mat(R1(read));
+    for position = 1:330 
+        NucMutMatrix(read,position) = strcmp(iLOV(position),x(position));
+    end
+end
+
+NucMutMatrix = ~NucMutMatrix ; % Invert the logical values; now a '1' signifies a mutation
+
+clear iLOV
+clear position
+clear read
+clear x
+
+
+disp('Completed generating nucleotide mutant matrix, NucMutMatrix')
+toc
+
+
+% At this point, only the variables R1 and NucMutMatrix are retained
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%=======================================================================
+%=======================================================================
+%=== Identify and filter out frameshifted reads
+
+NucMutMatrix_NoFrmSft= NucMutMatrix ;
+count = 0;
+% Filter out reads with four consecutive nucleotide mutations
+for read = 1:length(NucMutMatrix)
+    if mod(read,50000) == 0 & read>9999
+        disp(['Currently analyzing the mutations in read ' , num2str(read) , ' for evidence of frameshifting ' ])
+        toc
+    end
+    x = NucMutMatrix(read,:);
+    for position = 4:330 
+        if sum(x(position-3:position)) == 4
+            count = count + 1 ;
+            NucMutMatrix_NoFrmSft(read,:) = zeros(1,330);
+            FrmSft_Read_Locations(count) = read ;
+            break
+        end
+    end
+end
+
+clear count
+clear position
+clear read
+clear x
+
+disp(['Completed identifying frameshifted reads in R1. ' , num2str(length(FrmSft_Read_Locations)) , ' frameshifted reads found out of ' , num2str(length(R1))])
+toc
+
+%Remaining variables are FrmSt_Read_Locations (locations of frameshifted
+%reads in R1), NucMutMatrix (the nucleotide mutation matrix of R1),
+%NucMutMatrix_NoFrmSft (the same except frameshifted reads are overwritten
+%to have zero mutations), and R1 (a cell containing original clean reads).
+
+
+FrmSft_Read_Locations_A = FrmSft_Read_Locations ;
+NucMutMatrix_A = NucMutMatrix ;
+NucMutMatrix_NoFrmSft_A = NucMutMatrix_NoFrmSft ;
+R1_A = R1 ;
+
+clear FrmSft_Read_Locations
+clear NucMutMatrix
+clear NucMutMatrix_NoFrmSft
+clear R1
+
+disp('The program is complete.')
